@@ -13,6 +13,6 @@ def printProduct(n: Int): Unit =
   }
 
 @main
-def main(n: Int = 2) {
+def main(n: Int) {
   printProduct(n)
 }
