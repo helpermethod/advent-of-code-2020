@@ -8,7 +8,7 @@ def printProduct(n: Int): Unit =
       .map(_.toInt)
       .combinations(n)
       .find(_.sum == 2020)
-      .map(_.reduceLeft(_ * _))
+      .map(_.product)
       .foreach(println)
   }
 
