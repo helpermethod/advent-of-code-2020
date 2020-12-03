@@ -7,8 +7,8 @@ def count(filename: String)(predicate: Row => Boolean) =
   Using(Source.fromFile(filename)) {
     _.getLines()
      .map { line =>
-       val s"$from-$to $char: $password" = line
-       Row(from.toInt, to.toInt, char.head, password)
+       val s"$x-$y $char: $password" = line
+       Row(x.toInt, y.toInt, char.head, password)
      }
      .count(predicate)
   }
