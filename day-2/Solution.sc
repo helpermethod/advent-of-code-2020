@@ -13,8 +13,8 @@ def count(filename: String)(predicate: Row => Boolean) =
      .count(predicate)
   }
 
-count("input.txt")(row => (row.x to row.y).contains(row.password.count(_ == row.char)))
+count("input.txt") { case (x, y, char, password) => (x to y).contains(password.count(_ == char)) } 
   .foreach(println)
 
-count("input.txt")(row => row.password(row.x - 1) == row.char ^ row.password(row.y - 1) == row.char)
+count("input.txt") { case (x, y, char, password) => password(x - 1) == char ^ password(y - 1) == char }
   .foreach(println)
