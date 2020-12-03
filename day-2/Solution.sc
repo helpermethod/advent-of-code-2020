@@ -1,5 +1,5 @@
-import scala.util.Using
 import scala.io.Source
+import scala.util.Using
 
 case class Row(x: Int, y: Int, char: Char, password: String)
 
