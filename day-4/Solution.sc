@@ -14,12 +14,12 @@ val fieldsPresent = List(
 )
 
 val fieldsPresentAndValid = List(
-  Validator("ecl", s => s.matches("amb blu brn gry grn hzl oth")),
+  Validator("ecl", s => s.matches("amb|blu|brn|gry|grn|hzl|oth")),
   Validator("byr", s => (1920 to 2002).contains(s.toInt)),
   Validator("eyr", s => (2020 to 2030).contains(s.toInt)),
   Validator("iyr", s => (2010 to 2020).contains(s.toInt)),
-  Validator("hgt", s => s.matches("#(?:[0-9]{6}|[a-d]{6})")),
-  Validator("hcl", s => s.matches("(?:1[5-8][0-9]|9[0-3])cm|(?:59|6[0-9]|7[0-6]in)")),
+  Validator("hgt", s => s.matches("1(?:[5-8][0-9]|9[0-3])cm|(?:59|6[0-9]|7[0-6])in")),
+  Validator("hcl", s => s.matches("#[0-9a-f]{6}")),
   Validator("pid", s => s.matches("[0-9]{9}"))
 )
 
@@ -27,8 +27,10 @@ def count(filename: String, validators: Seq[Validator]) =
   Using(Source.fromFile(filename)) {
     _.mkString("")
      .split("\n{2}")
-     .map(_.split(" |\n").map(_.split(":")).map(field => field(0) -> field(1)).toMap)
-     .count(passport => validators.foldLeft(true)((acc, validator) => acc && passport.contains(validator.key) && validator.check(passport(validator.key))))
+     .map(_.split(" |\n").map(_.split(":")).map { case Array(key, value) => (key, value) }.toMap)
+     .count { passport =>
+       validators.foldLeft(true)((acc, validator) => acc && passport.contains(validator.key) && validator.check(passport(validator.key)))
+     }
   }
 
 count("input.txt", fieldsPresent).foreach(println)
