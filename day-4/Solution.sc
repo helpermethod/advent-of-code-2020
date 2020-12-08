@@ -25,7 +25,7 @@ val fieldsPresentAndValid = List(
 
 def count(filename: String, validators: Seq[Validator]) =
   Using(Source.fromFile(filename)) {
-    _.mkString("")
+    _.mkString
      .split("\n{2}")
      .map(_.split(" |\n").map(_.split(":")).map { case Array(key, value) => (key, value) }.toMap)
      .count { passport =>
